@@ -1,0 +1,16 @@
+/* In your tailwind.css or styles.css */
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Create the custom animation class */
+.animate-fadeInUp {
+  animation: fadeInUp 0.5s ease-in-out;
+}

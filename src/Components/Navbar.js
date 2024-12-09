@@ -2,6 +2,9 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 
 function Navbar() {
+  const handlenavigate = ()=>{
+    navigate('/ShoppingCart')
+  }
   const navigate = useNavigate()
   const handleNavigate= ()=>navigate('/')
   return (
@@ -79,6 +82,8 @@ function Navbar() {
                 src="https://cdn.builder.io/api/v1/image/assets/TEMP/98e2225d78dea7189204ab820cde25159f6cba9cec086e422d8290968dadfb74?placeholderIfAbsent=true&apiKey=517aaac069a941a4a2f05b64ef5a46ea"
                 className="h-6 w-6 mx-auto"
                 alt="My Cart"
+                onClick={handlenavigate}
+                style={{cursor:"pointer"}}
               />
               <div className="text-xs mt-1">My Cart</div>
             </div>

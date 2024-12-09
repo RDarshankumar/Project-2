@@ -145,6 +145,7 @@
 import React from "react";
 import { FaHeart } from "react-icons/fa"; // For heart icon
 import { FaStar } from "react-icons/fa"; // For star rating
+import { useNavigate } from "react-router-dom";
 
 const products = [
   {
@@ -224,6 +225,10 @@ const products = [
 ];
 
 function Gridpage() {
+  const navigate = useNavigate()
+  const handledetail = (product)=>{
+    navigate('/detail',{state:{name:product.name,price:product.price, image:product.image,rate:product.rating}})
+  }
   return (
     <div className="min-h-screen bg-gray-100 flex items-center justify-center p-6">
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -275,7 +280,7 @@ function Gridpage() {
               <p className="text-sm text-gray-600">{product.name}</p>
 
               {/* Buy Button */}
-              <button className="mt-3 w-full py-2 bg-blue-600 text-white text-sm font-medium rounded-md hover:bg-blue-500 transition-all duration-300 hover:scale-105 shadow-lg">
+              <button className="mt-3 w-full py-2 bg-blue-600 text-white text-sm font-medium rounded-md hover:bg-blue-500 transition-all duration-300 hover:scale-105 shadow-lg" onClick={()=>handledetail(product)}>
                 Buy Now
               </button>
             </div>
