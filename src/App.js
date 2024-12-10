@@ -7,6 +7,7 @@ import Detail from "./Task3/Detail";
 import ShoppingCart from "./Task4/cart/ShoppingCart";
 
 
+
 function App() {
   return (
     <>
@@ -17,7 +18,7 @@ function App() {
         <Route path="/detail" element={<Detail />} />
         <Route path="/ShoppingCart" element={<ShoppingCart />} />
       </Routes>
-   
+  
     </>
   );
 }

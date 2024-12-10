@@ -135,16 +135,7 @@ const ShoppingCart = () => {
         {/* Sidebar for Grand Total */}
         {cart.length > 0 && (
           <div className="w-full md:w-1/3 bg-white shadow-lg rounded-lg p-6 border border-gray-300 self-start md:self-stretch relative">
-            <div className="absolute right-6 top-6 flex items-center gap-2">
-              <input
-                type="text"
-                placeholder="Search..."
-                className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-              <button className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
-                Search
-              </button>
-            </div>
+            
             <h3 className="text-xl font-semibold mb-4 mt-16">Brand Name</h3>
             <div className="text-lg">
               <p>Grand Total:</p>
