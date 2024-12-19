@@ -18,3 +18,6 @@ export function ProductCard({ imageUrl, productName, priceRange }) {
     </div>
   );
 }
+
+
+

@@ -63,24 +63,25 @@ const Cloths = () => {
   ];
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 justify-center">
-      {recommendedItems.map(item => (
-        <article key={item.altText} className="flex flex-col max-w-xs w-full p-4 bg-white rounded-md border border-solid border-neutral-200 shadow-lg hover:shadow-2xl transform hover:scale-105 transition duration-300 ease-in-out">
-          <div className="flex flex-col items-center">
-            <figure className="flex justify-center items-center overflow-hidden w-full mb-4">
-              <img
-                loading="lazy"
-                src={item.imageSrc}
-                alt={item.altText}
-                className="object-contain w-[150px] h-[150px] sm:w-[200px] sm:h-[200px] md:w-[250px] md:h-[250px] lg:w-[300px] lg:h-[300px] transition-transform duration-300 ease-in-out transform hover:scale-110"
-              />
-            </figure>
-            <p className="mt-2 text-base font-medium text-zinc-900">{item.price}</p>
-            <p className="mt-2 text-sm text-center text-gray-600">{item.description}</p>
-          </div>
-        </article>
-      ))}
-    </div>
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 justify-items-center">
+    {recommendedItems.map(item => (
+      <article key={item.altText} className="flex flex-col max-w-xs w-full p-4 bg-white rounded-md border border-solid border-neutral-200 shadow-lg hover:shadow-2xl transform hover:scale-105 transition duration-300 ease-in-out">
+        <div className="flex flex-col items-center">
+          <figure className="flex justify-center items-center overflow-hidden w-full mb-4">
+            <img
+              loading="lazy"
+              src={item.imageSrc}
+              alt={item.altText}
+              className="object-contain w-[150px] h-[150px] sm:w-[200px] sm:h-[200px] md:w-[250px] md:h-[250px] lg:w-[300px] lg:h-[300px] transition-transform duration-300 ease-in-out transform hover:scale-110"
+            />
+          </figure>
+          <p className="mt-2 text-base font-medium text-zinc-900">{item.price}</p>
+          <p className="mt-2 text-sm text-center text-gray-600">{item.description}</p>
+        </div>
+      </article>
+    ))}
+  </div>
+  
   );
 };
 
