@@ -142,6 +142,7 @@ function Navbar() {
   const navigate = useNavigate();
   const handleNavigate = () => navigate("/");
   const handleCartNavigate = () => navigate("/ShoppingCart");
+  const handleOrderNavigate = () => navigate("/Order");
 
   return (
     <nav className="bg-white shadow-sm">
@@ -216,6 +217,8 @@ function Navbar() {
                 src="https://cdn.builder.io/api/v1/image/assets/TEMP/1abb82e567ebac5d509306dd9857bf17efadce44a5c74e5fe1db07a2d508c27f?placeholderIfAbsent=true&apiKey=517aaac069a941a4a2f05b64ef5a46ea"
                 className="h-6 w-6 mx-auto"
                 alt="Orders"
+                onClick={handleOrderNavigate}
+                style={{cursor:'pointer'}}
               />
               <div className="text-xs mt-1">Orders</div>
             </div>
@@ -276,7 +279,7 @@ function Navbar() {
                   className="h-6 w-6 mx-auto"
                   alt="Orders"
                 />
-                <div className="text-xs mt-1">Orders</div>
+                <div className="text-xs mt-1" >Orders</div>
               </div>
               <div className="text-center text-gray-500 hover:text-blue-500">
                 <img

@@ -4,11 +4,20 @@ import SecurePayment from "../SecurePayment";
 import { SavedItem } from "../saveditems/SavedItem";
 import PromotionBanner from "../../Task3/Banner/PromotionBanner";
 import Footer from "../../Components/Footer";
+import { Navigate, useNavigate } from "react-router-dom";
 
 const ShoppingCart = () => {
   const [cart, setCart] = useState([]);
   const [quantities, setQuantities] = useState({});
-  const [showPopup, setShowPopup] = useState(false);
+  const [showPaymentMethods, setShowPaymentMethods] = useState(false);
+  const [showPaymentDetails, setShowPaymentDetails] = useState(false);
+  const [showOrderSuccess, setShowOrderSuccess] = useState(false);
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("");
+  const [paymentDetails, setPaymentDetails] = useState({
+    IBN: "",
+    name: "",
+    address: "",
+  });
 
   useEffect(() => {
     const storedCart = JSON.parse(localStorage.getItem("cart")) || [];
@@ -43,22 +52,38 @@ const ShoppingCart = () => {
   };
 
   const handlePlaceOrder = () => {
-    setShowPopup(true);
-    setTimeout(() => setShowPopup(false), 3000); // Auto-close the popup after 3 seconds
+    setShowPaymentMethods(true);
   };
 
-  const sellerNames = [
-    "John Doe",
-    "Jane Smith",
-    "Alice Johnson",
-    "Michael Brown",
-    "Emily Davis",
-  ];
+  const handlePaymentMethodSelect = (method) => {
+    setSelectedPaymentMethod(method);
+    setShowPaymentMethods(false);
+    setShowPaymentDetails(true);
+  };
+
+  const handlePaymentDetailsSubmit = () => {
+    setShowPaymentDetails(false);
+    setShowOrderSuccess(true);
+    setTimeout(() => setShowOrderSuccess(false), 3000); // Auto-close the popup after 3 seconds
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setPaymentDetails((prev) => ({ ...prev, [name]: value }));
+  };
+  const navigate = useNavigate();
+
+  const handleOrder = (cart) => {
+    navigate("/Order", {
+      state: {
+        cart,
+      },
+    });
+  };
 
   return (
     <>
       <Navbar />
-      <br />
       <div className="container mx-auto px-4 flex flex-col md:flex-row gap-6">
         <div className="w-full md:w-2/3 bg-white shadow-md rounded-lg p-6 border border-gray-200">
           <h2 className="text-2xl font-semibold mb-4">Shopping Cart</h2>
@@ -78,12 +103,6 @@ const ShoppingCart = () => {
                   />
                   <div className="flex-1">
                     <h3 className="text-lg font-semibold">{item.name}</h3>
-                    <p className="text-sm text-gray-500 mt-1">
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                    </p>
-                    <p className="text-sm text-gray-500 mt-1">
-                      Seller: {sellerNames[index % sellerNames.length]}
-                    </p>
                     <p className="text-gray-500">
                       Price: ${item.price.toFixed(2)}
                     </p>
@@ -134,49 +153,140 @@ const ShoppingCart = () => {
 
         {/* Sidebar for Grand Total */}
         {cart.length > 0 && (
-          <div className="w-full md:w-1/3 bg-white shadow-lg rounded-lg p-6 border border-gray-300 self-start md:self-stretch relative">
-            
-            <h3 className="text-xl font-semibold mb-4 mt-16">Brand Name</h3>
-            <div className="text-lg">
-              <p>Grand Total:</p>
-              <p className="font-bold text-red-500">
-                ${getTotalPrice().toFixed(2)}
-              </p>
-            </div>
+          <div className="w-full md:w-1/3 bg-white shadow-lg rounded-lg p-6 border border-gray-300">
+            <h3 className="text-xl font-semibold mb-4">Grand Total</h3>
+            <p className="text-lg font-bold text-red-500">
+              ${getTotalPrice().toFixed(2)}
+            </p>
             <button
-              className="mt-4 w-full bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 transform hover:scale-105 transition duration-300"
+              className="mt-4 w-full bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600"
               onClick={handlePlaceOrder}
             >
               Place Order
             </button>
           </div>
         )}
-
-        {/* Order Confirmation Popup */}
-        {showPopup && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-            <div className="bg-white p-6 rounded-lg shadow-lg text-center">
-              <div className="text-green-500 mb-4">
-                <svg
-                  className="w-12 h-12 mx-auto animate-pulse"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M9 12l2 2l4-4m-6 6a9 9 0 1 0 0-18a9 9 0 0 0 0 18z"
-                  />
-                </svg>
-              </div>
-              <p className="text-lg font-semibold">Order is placed!</p>
-            </div>
-          </div>
-        )}
       </div>
+      {/* Payment Methods Popup */}
+      {showPaymentMethods && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg text-center relative">
+            <button
+              className="absolute top-2 right-2 text-gray-600 hover:text-gray-900"
+              onClick={() => setShowPaymentMethods(false)}
+            >
+              ✕
+            </button>
+            <h2 className="text-xl font-semibold mb-4">Payment Methods</h2>
+            <ul className="space-y-2">
+              {["Easypaisa", "JazzCash", "Paypal", "Bank"].map((method) => (
+                <li key={method}>
+                  <button
+                    className="w-full bg-gray-200 py-2 rounded-lg hover:bg-gray-300"
+                    onClick={() => handlePaymentMethodSelect(method)}
+                  >
+                    {method}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      )}
+      // Payment Details Popup
+      {showPaymentDetails && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg w-96 relative">
+            <button
+              className="absolute top-2 right-2 text-gray-600 hover:text-gray-900"
+              onClick={() => setShowPaymentDetails(false)}
+            >
+              ✕
+            </button>
+            <h2 className="text-xl font-semibold mb-4">Payment Details</h2>
+            <form
+              onSubmit={(e) => {
+                e.preventDefault(); // Prevent default form submission
+                if (
+                  paymentDetails.IBN &&
+                  paymentDetails.name &&
+                  paymentDetails.address
+                ) {
+                  handlePaymentDetailsSubmit();
+                } else {
+                  alert("Please fill in all fields.");
+                }
+              }}
+              className="space-y-4"
+            >
+              <input
+                type="text"
+                name="IBN"
+                placeholder="IBN"
+                value={paymentDetails.IBN}
+                onChange={handleInputChange}
+                className="w-full border border-gray-300 p-2 rounded"
+                required
+              />
+              <input
+                type="text"
+                name="name"
+                placeholder="Name"
+                value={paymentDetails.name}
+                onChange={handleInputChange}
+                className="w-full border border-gray-300 p-2 rounded"
+                required
+              />
+              <input
+                type="text"
+                name="address"
+                placeholder="Address"
+                value={paymentDetails.address}
+                onChange={handleInputChange}
+                className="w-full border border-gray-300 p-2 rounded"
+                required
+              />
+              <div className="flex justify-between">
+                <p className="font-semibold">Total Amount:</p>
+                <p>${getTotalPrice().toFixed(2)}</p>
+              </div>
+              {/* Button to trigger order submission */}
+              <button
+                className="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600"
+                onClick={() => handleOrder(cart)} // Pass the whole item
+              >
+                Submit Order
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
+      {/* Order Success Popup */}
+      {showOrderSuccess && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg text-center">
+            <div className="text-green-500 mb-4">
+              <svg
+                className="w-12 h-12 mx-auto animate-pulse"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M9 12l2 2l4-4m-6 6a9 9 0 1 0 0-18a9 9 0 0 0 0 18z"
+                />
+              </svg>
+            </div>
+            <p className="text-lg font-semibold">
+              Order Submitted Successfully!
+            </p>
+          </div>
+        </div>
+      )}
       <SecurePayment />
       <SavedItem />
       <PromotionBanner />

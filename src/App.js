@@ -5,6 +5,7 @@ import ResponsiveLayout from "./Tasks/Layout/ResponsiveLayout";
 import Layout from "./Task2/Layout/Layout";
 import Detail from "./Task3/Detail";
 import ShoppingCart from "./Task4/cart/ShoppingCart";
+import Order from "./Task4/cart/Order";
 
 
 
@@ -17,6 +18,7 @@ function App() {
         <Route path="/grid" element={<Layout />}></Route>
         <Route path="/detail" element={<Detail />} />
         <Route path="/ShoppingCart" element={<ShoppingCart />} />
+        <Route path="/Order" element={<Order />} />
       </Routes>
   
     </>
