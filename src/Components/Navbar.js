@@ -279,6 +279,7 @@ function Navbar() {
                   className="h-6 w-6 mx-auto"
                   alt="Orders"
                   onClick={handleOrderNavigate}
+                  style={{cursor:'pointer'}}
                 />
                 <div className="text-xs mt-1" >Orders</div>
               </div>
